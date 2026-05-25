@@ -6,6 +6,10 @@ class Computer:
         self.bluetooth = builder.bluetooth
         self.os = builder.os
 
+    def __str__(self):
+        return (f"Computer Specs: [RAM: {self.ram}, HDD: {self.hdd}, "
+                f"GPU: {self.graphics_card}, BT: {self.bluetooth}, OS: {self.os}]")
+
 
 # ComputerBuilder handles the creation of Computer objects
 class ComputerBuilder:
@@ -37,7 +41,7 @@ class ComputerBuilder:
 
 if __name__ == "__main__":
     # Client Usage
-    # See how you can build the parameters you want in a readable way.
+    # See how you can set the parameters you want in a readable way.
 
     gaming_pc = (ComputerBuilder("2TB SSD", "32GB")
                            .set_graphics_card("RTX 4090")
@@ -46,5 +50,7 @@ if __name__ == "__main__":
     
     basic_pc = ComputerBuilder("500GB HDD", "8GB").build()
 
+    print(gaming_pc)
+    print(basic_pc)
 
 

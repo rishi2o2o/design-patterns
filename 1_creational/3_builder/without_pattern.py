@@ -11,8 +11,10 @@ class Computer:
 if __name__ == "__main__":
     # Client Usage  
 
-    # See how you need to pass multiple None for parameters you don't care about.
-    # This becomes highly unreadable.
+    # See how you need to pass multiple None values
+    # for parameters you don't care about.
+    # This becomes highly unreadable and unmaintainable
+    # as codebase grows.
 
     gaming_pc = Computer(
         "2TB SSD", 
