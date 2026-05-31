@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+# --- Subject Interface (Observable) ---
+
 class Subject(ABC):
     """The Subject interface handles attaching, detaching, and notifying observers."""
     @abstractmethod
@@ -14,14 +16,7 @@ class Subject(ABC):
     def notify(self) -> None:
         pass
 
-class Observer(ABC):
-    """The Observer interface defines the update action used by the Subject."""
-    @abstractmethod
-    def update(self, temperature: float, humidity: float) -> None:
-        pass
-
-
-# ------------------------------------------------------------------
+# --- Concrete Subjects ---
 
 class WeatherStation(Subject):
     """The Concrete Subject that maintains weather data and alerts observers."""
@@ -30,12 +25,12 @@ class WeatherStation(Subject):
         self._temperature: float = 0.0
         self._humidity: float = 0.0
 
-    def attach(self, observer: Observer) -> None:
+    def attach(self, observer: 'Observer') -> None:
         if observer not in self._observers:
             self._observers.append(observer)
             print(f"WeatherStation: Attached an observer ({type(observer).__name__}).")
 
-    def detach(self, observer: Observer) -> None:
+    def detach(self, observer: 'Observer') -> None:
         self._observers.remove(observer)
         print(f"WeatherStation: Detached an observer ({type(observer).__name__}).")
 
@@ -52,7 +47,15 @@ class WeatherStation(Subject):
         self.notify()
 
 
-# ------------------------------------------------------------------
+# --- Observer Interface ---
+
+class Observer(ABC):
+    """The Observer interface defines the update action used by the Subject."""
+    @abstractmethod
+    def update(self, temperature: float, humidity: float) -> None:
+        pass
+
+# --- Concrete Observers ---
 
 class MobileAppDisplay(Observer):
     """Concrete Observer 1: A mobile application rendering user-friendly text."""
@@ -66,9 +69,9 @@ class WebDashboardDisplay(Observer):
 
 
 
-# ------------------------------------------------------------------
-
+# --- Client Code ---
 if __name__ == "__main__":
+    
     # Create the publisher station
     weather_station = WeatherStation()
 

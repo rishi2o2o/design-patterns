@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-class Light:  # command receiver
+# --- Command Receiver (Task Doer) ---
+class Light: 
     def turn_on(self):
         print("The light is ON")
         
@@ -8,7 +9,8 @@ class Light:  # command receiver
         print("The light is OFF")
 
 
-class Command(ABC):  # command interface
+# --- Command Interface ---
+class Command(ABC): 
     @abstractmethod
     def execute(self):
         pass
@@ -17,7 +19,9 @@ class Command(ABC):  # command interface
     def undo(self):
         pass
 
-class LightOnCommand(Command): # concrete commands
+# --- Concrete Commands ---
+
+class LightOnCommand(Command): 
     def __init__(self, light: Light):
         self.light = light
         
@@ -38,7 +42,8 @@ class LightOffCommand(Command):
         self.light.turn_on()
 
 
-class RemoteControl:  # command invoker/sender
+# --- Command Sender ---
+class RemoteControl:  
     """Remote control has 3 buttons - button a, button b and undo button"""
 
     def __init__(self, slot_a: Command, slot_b: Command):
@@ -60,22 +65,27 @@ class RemoteControl:  # command invoker/sender
             last_command.undo()
 
 
+# --- Client Code ---
 if __name__ == "__main__":
+
+    # Create receiver (task doer)
     kitchen_light = Light()
+
+    # Create sender and attach commands to it
     remote_control = RemoteControl(
                                         slot_a=LightOnCommand(kitchen_light),
                                         slot_b=LightOffCommand(kitchen_light),
                                     )
                         
-    # 1. Switch light on
+    # Light on button
     print("-- Press light on button --")
     remote_control.press_button_a()
 
-    # 2. Switch light off
+    # Light off button
     print("-- Press light off button --")
     remote_control.press_button_b()
 
-    # 3. Undo last command (light switch off)
+    # Undo button (undo light off)
     print("-- Press undo button --")
     remote_control.press_undo_button()
 

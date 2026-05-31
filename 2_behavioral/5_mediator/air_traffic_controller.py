@@ -1,9 +1,10 @@
-# The Mediator Interface
+#--- Mediator Interface ---
 class AirTrafficControl:
     def notify(self, sender, event):
         pass
 
-# The Concrete Mediator
+
+# --- Concrete Mediator ---
 class ControlTower(AirTrafficControl):
     def __init__(self):
         self.planes = []
@@ -19,7 +20,8 @@ class ControlTower(AirTrafficControl):
                 if p != sender:
                     p.receive("Adjust altitude")
 
-# The Colleague
+
+# --- Colleagues ---
 class Airplane:
     def __init__(self, name, mediator):
         self.name = name
@@ -33,12 +35,18 @@ class Airplane:
     def receive(self, message):
         print(f"{self.name} received message: {message}")
 
-# Usage
+
+# --- Client Code ---
 if __name__ == "__main__":
+
+    # Create mediator
     tower = ControlTower()
+
+    # Create colleagues and link to mediator
     plane1 = Airplane("Flight 101", tower)
     plane2 = Airplane("Flight 205", tower)
 
+    # Send "land" event from colleague 1
     plane1.send("land")
 
 
